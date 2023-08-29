@@ -34,6 +34,7 @@ resource "aviatrix_transit_external_device_conn" "onprem_to_region1_tgw_vpn_conn
   remote_gateway_ip = [for tunnel in aviatrix_aws_tgw_vpn_conn.region1_tgw_vpn_conn_to_onprem.vpn_tunnel_data :   tunnel.vpn_outside_address  if cidrsubnet("169.254.0.100/30", 0, 0) == cidrsubnet("${tunnel.vpn_inside_address}/30", 0, 0)][0]
   local_tunnel_cidr = "169.254.0.102/30"
   remote_tunnel_cidr = "169.254.0.101/30"
+  manual_bgp_advertised_cidrs = [var.onprem_spoke_cidr]
 }
 
 resource "aviatrix_transit_external_device_conn" "onprem_to_region2_tgw_vpn_conn" {
@@ -47,4 +48,5 @@ resource "aviatrix_transit_external_device_conn" "onprem_to_region2_tgw_vpn_conn
   remote_gateway_ip = [for tunnel in aviatrix_aws_tgw_vpn_conn.region2_tgw_vpn_conn_to_onprem.vpn_tunnel_data :   tunnel.vpn_outside_address  if cidrsubnet("169.254.0.104/30", 0, 0) == cidrsubnet("${tunnel.vpn_inside_address}/30", 0, 0)][0]
   local_tunnel_cidr = "169.254.0.106/30"
   remote_tunnel_cidr = "169.254.0.105/30"
+  manual_bgp_advertised_cidrs = [var.onprem_spoke_cidr]
 }
